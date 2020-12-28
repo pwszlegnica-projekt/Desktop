@@ -1,6 +1,7 @@
 package pl.sebox.shool.shooplist;
 
 import pl.sebox.shool.shooplist.Models.List;
+import pl.sebox.shool.shooplist.Models.Product;
 import pl.sebox.shool.shooplist.Window.ListsWindow;
 
 import javax.swing.*;
@@ -12,7 +13,8 @@ import java.util.HashMap;
 public class ListManager implements ActionListener {
     public ArrayList<List> lists;
     public HashMap<List, JButton> listsButtons = new HashMap<>();
-    private DatabaseManager databaseManager;
+    public HashMap<Product, JButton> productButtons = new HashMap<>();
+    private final DatabaseManager databaseManager;
     private int currentList = 0;
     private ListsWindow listsWindow;
 
@@ -33,6 +35,9 @@ public class ListManager implements ActionListener {
         for (List entry : lists) {
             this.listsButtons.put(entry, new JButton(entry.name));
         }
+        for (Product entry : getCurrentList().products) {
+            this.productButtons.put(entry, new JButton(entry.name));
+        }
         listsWindow.refreshList();
         Log.d(lists.toString());
     }
@@ -49,11 +54,15 @@ public class ListManager implements ActionListener {
                                 currentList
                         )));
         setLists(lists);
+        listsWindow.displayListContent();
+    }
+
+    public List getCurrentList(){
+        return lists.get(currentList);
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        Log.d("-------------------------");
         for (HashMap.Entry<List, JButton> entry : listsButtons.entrySet()) {
             if (actionEvent.getSource() == entry.getValue()) {
                 Log.d("Select list: " + entry.getKey().listId);
