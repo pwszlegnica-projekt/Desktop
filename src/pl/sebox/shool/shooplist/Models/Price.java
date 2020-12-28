@@ -48,7 +48,7 @@ public class Price {
         setVat(vatRate);
     }
 
-    Price(int price) {
+    public Price(int price) {
         setPrice(price);
         setVat(VatRate.vat23);
     }
