@@ -1,6 +1,7 @@
 package pl.sebox.shool.shooplist;
 
 import pl.sebox.shool.shooplist.Models.List;
+import pl.sebox.shool.shooplist.Window.ListsWindow;
 
 import java.util.ArrayList;
 
@@ -15,5 +16,8 @@ public class Main {
         chosedList = databaseManager.loadDetails(chosedList);
         lists.set(0, chosedList);
         Log.d("Detailed list: " + chosedList.toString());
+        ListsWindow listsWindow = new ListsWindow();
+        listsWindow.setLists(lists);
+        listsWindow.showWindow();
     }
 }
