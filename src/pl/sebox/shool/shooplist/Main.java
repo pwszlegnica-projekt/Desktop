@@ -16,5 +16,20 @@ public class Main {
         listManager.setListsWindow(listsWindow);
         listManager.init();
         listsWindow.showWindow();
+
+        Thread thread = new Thread() {
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(4000);
+                        listManager.refreshList();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        thread.start();
     }
 }
