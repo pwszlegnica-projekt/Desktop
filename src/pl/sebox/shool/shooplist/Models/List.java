@@ -23,10 +23,10 @@ public class List {
 
     @Override
     public String toString() {
-        return "List{" +
-                "listId=" + listId +
-                ", name='" + name + "\n" +
-                ", products=" + products + "\n" + '\'' +
+        return "\nList{" +
+                "\tlistId=" + listId +
+                "\t, name='" + name + "\n" +
+                "\t, products=" + products + "\n" + '\'' +
                 '}';
     }
 }

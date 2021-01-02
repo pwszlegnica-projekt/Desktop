@@ -11,7 +11,7 @@ public class ListsWindow {
     public JPanel panel1 = new JPanel(new GridLayout(0, 1));
     public JFrame frame;
     private final ListManager listManager;
-    private ListContentWindow listContentWindow = null;
+    public ListContentWindow listContentWindow = null;
 
     public ListsWindow(ListManager listManager, JFrame frame) {
         this.listManager = listManager;

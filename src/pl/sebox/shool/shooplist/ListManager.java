@@ -3,6 +3,7 @@ package pl.sebox.shool.shooplist;
 import pl.sebox.shool.shooplist.Models.List;
 import pl.sebox.shool.shooplist.Models.Product;
 import pl.sebox.shool.shooplist.Window.ListsWindow;
+import pl.sebox.shool.shooplist.Window.WindowMode;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ public class ListManager implements ActionListener {
     private final DatabaseManager databaseManager;
     private int currentList = 0;
     private ListsWindow listsWindow;
+    public WindowMode windowMode = WindowMode.lists;
 
     public ListManager(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
@@ -35,6 +37,7 @@ public class ListManager implements ActionListener {
         for (List entry : lists) {
             this.listsButtons.put(entry, new JButton(entry.name));
         }
+        this.productButtons.clear();
         for (Product entry : getCurrentList().products) {
             this.productButtons.put(entry, new JButton(entry.name));
         }
@@ -46,14 +49,18 @@ public class ListManager implements ActionListener {
         selectList(lists.indexOf(list));
     }
 
-    public void selectList(int index) {
-        currentList = index;
-        lists.set(index,
+    public void refreshList(){
+        lists.set(currentList,
                 databaseManager.loadDetails(
                         lists.get(
                                 currentList
                         )));
         setLists(lists);
+    }
+
+    public void selectList(int index) {
+        currentList = index;
+        refreshList();
         listsWindow.displayListContent();
     }
 
@@ -67,6 +74,13 @@ public class ListManager implements ActionListener {
             if (actionEvent.getSource() == entry.getValue()) {
                 Log.d("Select list: " + entry.getKey().listId);
                 selectList(entry.getKey());
+            }
+        }
+        for (HashMap.Entry<Product, JButton> entry : productButtons.entrySet()) {
+            if (actionEvent.getSource() == entry.getValue()) {
+                Log.d("Select list: " + entry.getKey().productId);
+                while (!databaseManager.markProductAsDone(entry.getKey())){}
+                listsWindow.refreshList();
             }
         }
     }

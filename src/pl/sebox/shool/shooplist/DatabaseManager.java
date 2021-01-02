@@ -86,13 +86,18 @@ public class DatabaseManager {
         return outputList;
     }
 
+    public boolean markProductAsDone(Product product) {
+        sentRequest("product/" + product.productId + "/markAsDone");
+        return true;
+    }
+
     private JSONObject sentRequest(String request) {
         return sentRequest(request, new HashMap<>());
     }
 
     private JSONObject sentRequest(String request, HashMap<String, String> values) {
         HttpResponse response = Network.post(this.host + "/" + request, values);
-        Log.d("Network request");
+        Log.d("Network request: " + request);
         Log.d(String.valueOf(response.code));
         Log.d(response.body);
         if (response.code == 200) {
