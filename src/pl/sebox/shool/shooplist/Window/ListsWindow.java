@@ -5,6 +5,8 @@ import pl.sebox.shool.shooplist.Models.List;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 public class ListsWindow {
@@ -34,8 +36,22 @@ public class ListsWindow {
                 panel1.add(entry.getValue());
             }
         }
-
-        frame.setContentPane(this.panel1);
+        //JPanel panelMenu = new JPanel(new GridLayout(0, 1));
+        JPanel panel0 = new JPanel(null);
+        MenuPanel menuPanel = new MenuPanel();
+        panel0.add(menuPanel);
+        menuPanel.setLayout(null);
+        menuPanel.setSize(100, 50);
+        panel0.add(panel1);
+        panel1.setLocation(0, 50);
+        panel1.setSize(frame.getContentPane().getSize().width + 10, frame.getContentPane().getSize().height - 50);
+        menuPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                listManager.backToLists();
+            }
+        });
+        frame.setContentPane(panel0);
         frame.setVisible(true);
     }
 

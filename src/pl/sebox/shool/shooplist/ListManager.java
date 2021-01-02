@@ -49,7 +49,7 @@ public class ListManager implements ActionListener {
         selectList(lists.indexOf(list));
     }
 
-    public void refreshList(){
+    public void refreshList() {
         lists.set(currentList,
                 databaseManager.loadDetails(
                         lists.get(
@@ -58,13 +58,18 @@ public class ListManager implements ActionListener {
         setLists(lists);
     }
 
+    public void backToLists() {
+        listsWindow.listContentWindow = null;
+        refreshList();
+    }
+
     public void selectList(int index) {
         currentList = index;
         refreshList();
         listsWindow.displayListContent();
     }
 
-    public List getCurrentList(){
+    public List getCurrentList() {
         return lists.get(currentList);
     }
 
@@ -84,7 +89,7 @@ public class ListManager implements ActionListener {
                 doRefresh = true;
             }
         }
-        if(doRefresh){
+        if (doRefresh) {
             refreshList();
         }
     }
