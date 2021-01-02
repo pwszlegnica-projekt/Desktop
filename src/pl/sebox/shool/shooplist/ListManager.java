@@ -76,12 +76,16 @@ public class ListManager implements ActionListener {
                 selectList(entry.getKey());
             }
         }
+        boolean doRefresh = false;
         for (HashMap.Entry<Product, JButton> entry : productButtons.entrySet()) {
             if (actionEvent.getSource() == entry.getValue()) {
-                Log.d("Select list: " + entry.getKey().productId);
-                while (!databaseManager.markProductAsDone(entry.getKey())){}
-                listsWindow.refreshList();
+                Log.d("Select product: " + entry.getKey().productId);
+                databaseManager.markProductAsDone(entry.getKey());
+                doRefresh = true;
             }
+        }
+        if(doRefresh){
+            refreshList();
         }
     }
 }
