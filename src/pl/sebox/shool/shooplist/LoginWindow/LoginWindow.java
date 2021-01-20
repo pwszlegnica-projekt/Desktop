@@ -9,7 +9,7 @@ public class LoginWindow {
 
         JTextField login = new JTextField("Login");
         panel.add(login);
-        JTextField password = new JTextField("Login");
+        JPasswordField password = new JPasswordField("Hsało");
         panel.add(password);
 
         JButton doLogin = new JButton("Loguj");
@@ -25,6 +25,7 @@ public class LoginWindow {
         Credentials credentials = new Credentials();
         credentials.login = "a@example.com";
         credentials.password = "123456789";
+        while (credentials.login==null || credentials.password==null){}
         return credentials;
     }
 }
