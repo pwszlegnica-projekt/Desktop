@@ -23,6 +23,13 @@ public class ListContentWindow {
             entry.getValue().addActionListener(listManager);
             panel1.add(entry.getValue());
         }
+        JTextField name = new JTextField();
+        panel1.add(name);
+        JButton add = new JButton("dodaj");
+        add.setBackground(Color.green);
+        add.setBorder(BorderFactory.createEmptyBorder());
+
+        panel1.add(add);
         return panel1;
     }
 }
