@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import pl.sebox.decathlon.tools.Network;
 import pl.sebox.decathlon.tools.network.HttpResponse;
 import pl.sebox.shool.shooplist.Exception.NotLoginException;
+import pl.sebox.shool.shooplist.LoginWindow.Credentials;
 import pl.sebox.shool.shooplist.Models.List;
 import pl.sebox.shool.shooplist.Models.Price;
 import pl.sebox.shool.shooplist.Models.Product;
@@ -18,25 +19,15 @@ public class DatabaseManager {
     private boolean isLogged = false;
     private long expirationDate = 0;
     private String host;
-    private String login;
-    private String password;
+    private Credentials credentials;
 
-    public DatabaseManager(String host, String login, String password) {
+    public DatabaseManager(String host, Credentials credentials) {
         this.host = host;
-        this.login = login;
-        this.password = password;
+        this.credentials = credentials;
     }
 
     public void setHost(String host) {
         this.host = host;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public boolean login() {
@@ -95,7 +86,19 @@ public class DatabaseManager {
         return sentRequest(request, new HashMap<>());
     }
 
+    private void authorize(){
+        HashMap<String, String> pahrms = new HashMap<>();
+        pahrms.put("email", credentials.login);
+        pahrms.put("password", credentials.password);
+        HttpResponse response = Network.post(this.host + "/login", pahrms);
+        JSONObject jo = new JSONObject(response.body);
+        Log.add(jo.toString());
+    }
+
     private JSONObject sentRequest(String request, HashMap<String, String> values) {
+        if(this.credentials.token == null){
+            authorize();
+        }
         HttpResponse response = Network.post(this.host + "/" + request, values);
         Log.d("Network request: " + request);
         Log.d(String.valueOf(response.code));
