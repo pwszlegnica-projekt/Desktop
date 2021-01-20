@@ -11,8 +11,9 @@ public class Main {
         JFrame frame = new JFrame("");
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LoginWindow.login(frame);
 
-        ListManager listManager = new ListManager(new DatabaseManager("http://127.0.0.1:8080/api", LoginWindow.login(frame)));
+        ListManager listManager = new ListManager(new DatabaseManager("http://127.0.0.1:8080"));
         ListsWindow listsWindow = new ListsWindow(listManager, frame);
         listManager.setListsWindow(listsWindow);
         listManager.init();

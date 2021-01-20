@@ -19,11 +19,9 @@ public class DatabaseManager {
     private boolean isLogged = false;
     private long expirationDate = 0;
     private String host;
-    private Credentials credentials;
 
-    public DatabaseManager(String host, Credentials credentials) {
+    public DatabaseManager(String host) {
         this.host = host;
-        this.credentials = credentials;
     }
 
     public void setHost(String host) {
@@ -77,8 +75,8 @@ public class DatabaseManager {
         return outputList;
     }
 
-    public boolean markProductAsDone(Product product) {
-        sentRequest("product/" + product.productId + "/markAsDone");
+    public boolean markProductAsDone(Product product, List list) {
+        sentRequest("list/" + list.listId + "/product/" + product.productId);
         return true;
     }
 
@@ -86,19 +84,19 @@ public class DatabaseManager {
         return sentRequest(request, new HashMap<>());
     }
 
-    private void authorize(){
-        HashMap<String, String> pahrms = new HashMap<>();
-        pahrms.put("email", credentials.login);
-        pahrms.put("password", credentials.password);
-        HttpResponse response = Network.post(this.host + "/login", pahrms);
-        JSONObject jo = new JSONObject(response.body);
-        Log.add(jo.toString());
-    }
+//    private void authorize(){
+//        HashMap<String, String> pahrms = new HashMap<>();
+//        pahrms.put("email", Credentials.login);
+//        pahrms.put("password", Credentials.password);
+//        HttpResponse response = Network.post(this.host + "/login", pahrms);
+//        JSONObject jo = new JSONObject(response.body);
+//        Log.add(jo.toString());
+//    }
 
     private JSONObject sentRequest(String request, HashMap<String, String> values) {
-        if(this.credentials.token == null){
-            authorize();
-        }
+//        if(Credentials.token == null){
+//            authorize();
+//        }
         HttpResponse response = Network.post(this.host + "/" + request, values);
         Log.d("Network request: " + request);
         Log.d(String.valueOf(response.code));

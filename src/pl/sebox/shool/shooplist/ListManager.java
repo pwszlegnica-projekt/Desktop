@@ -85,7 +85,7 @@ public class ListManager implements ActionListener {
         for (HashMap.Entry<Product, JButton> entry : productButtons.entrySet()) {
             if (actionEvent.getSource() == entry.getValue()) {
                 Log.d("Select product: " + entry.getKey().productId);
-                databaseManager.markProductAsDone(entry.getKey());
+                databaseManager.markProductAsDone(entry.getKey(), getCurrentList());
                 doRefresh = true;
             }
         }
